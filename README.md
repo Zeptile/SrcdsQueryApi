@@ -1,5 +1,3 @@
-Certainly! Here's an improved version of your README:
-
 # Srcds Server Information Query Client
 
 This client provides a straightforward way to interact with the Server Query API for the Source engine developed by Valve. You can learn more about the Source engine's Server Query API on the [Valve Developer Community](https://developer.valvesoftware.com/wiki/Server_queries) website.
