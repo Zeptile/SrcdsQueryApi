@@ -1,4 +1,4 @@
-# Quick implementation of the Server Query API from Valve
+# Server Query API - Quick .NET Implementation
 
 I quickly wrote an implementation of the Valve Server Query API as it was needed for my internal server operations. There is a great chance I split the pure code into a library with nuget builds.
 
