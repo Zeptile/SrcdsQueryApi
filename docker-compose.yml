@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    ports:
+      - "5295:5295"
+    environment:
+      - ASPNETCORE_URLS=http://0.0.0.0:5295
+      - ASPNETCORE_ENVIRONMENT=Production
