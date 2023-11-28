@@ -4,12 +4,19 @@ using srcds_server_query_timeout;
 
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
+var logger = app.Logger;
 
-app.MapGet("/query", async (HttpRequest req) => {
+app.MapGet("/query", async (HttpRequest req, HttpResponse res) => {
     try 
     {
         var host = req.Query["host"].ToString();
         var port = req.Query["port"].ToString();
+
+        if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(port))
+        {
+            await res.WriteResponse(400, new { error = "host and port are required" });
+            return;
+        }
 
         string ip;
 
@@ -24,19 +31,19 @@ app.MapGet("/query", async (HttpRequest req) => {
         }
 
         var endpoint = new IPEndPoint(IPAddress.Parse(ip), int.Parse(port));
-        var serverQuery = new ServerQuery(endpoint, app.Logger);
+        var serverQuery = new ServerQuery(endpoint, logger);
         
-        return await serverQuery.GetServerInfo();
+        await res.WriteResponse(200, await serverQuery.GetServerInfo());
     } 
-    catch (QueryTimeoutException e) 
+    catch (QueryTimeoutException e)
     {
-        Console.WriteLine(e.Message);
-        throw e;
+        logger.LogError("Timeout while contacting Server - {}", e.Message);
+        await res.WriteResponse(500, new { error = "Timeout while contacting Server" });
     } 
     catch (Exception e) 
     {
-        Console.WriteLine(e.Message);
-        throw e;
+        logger.LogError("Unexpected error while trying to query server - {}", e.Message);
+        await res.WriteResponse(500, new { error = "Unexpected error while trying to query server" });
     }
 });
 

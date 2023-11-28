@@ -20,10 +20,7 @@ public class ResponseParser
         return _bytes[CurrentPosition++];
     }
 
-    public bool BytesLeft
-    {
-        get { return _bytes.Length - 1 >= CurrentPosition; }
-    }
+    public bool BytesLeft => _bytes.Length - 1 >= CurrentPosition;
 
     public string GetStringToTermination()
     {

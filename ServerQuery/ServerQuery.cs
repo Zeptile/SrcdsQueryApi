@@ -16,7 +16,6 @@ public static class TimeoutSettings
     public const int ReceiveTimeout = 10000000;
 }
 
-
 public class ServerQuery
 {
     private readonly ILogger _logger;
